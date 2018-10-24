@@ -20,7 +20,7 @@ class App extends Component {
     };
 
     analyzeSentence() {
-        //fetch('http://sa-webapp:8080/sentiment', {
+        //fetch('http://k8s.local/api/sentiment', {
         fetch('http://localhost:8080/sentiment', {
             method: 'POST',
             headers: {
