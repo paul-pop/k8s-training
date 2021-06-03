@@ -1,37 +1,27 @@
-## Packaging the application
-` $ mvn install`
+## Building the Docker Container
 
-## Running the application
-` $ java -jar sentiment-analysis-web-0.0.1-SNAPSHOT.jar --sa.logic.api.url=http://localhost:5000 ` 
-
-## Building the container
-` $ docker build -f Dockerfile -t $DOCKER_USER_ID/sentiment-analysis-web-app . `
-
-## Running the container
-``` 
-$ docker run -d -p 8080:8080 -e SA_LOGIC_API_URL='http://<container_ip or docker machine ip>:5000' $DOCKER_USER_ID/sentiment-analysis-web-app  
+```shell script
+docker build -t sa-webapp .
 ```
 
-#### Native docker support needs the Container IP
-CONTAINER_IP: To forward messages to the sa-logic container we need to get  its IP. To do so execute:
+## Running the Docker Container
 
-` $ docker container list`
+```shell script
+docker run -d -p 8080:8080 sa-webapp
+```
 
-Copy the id of sa-logic container and execute:
+By defaul this poins to the SA Python API running on the host on port 5000 by using the `host.docker.internal`
+host which uses Docker networking to go from the container to the host.
 
-` $ docker inspect <container_id> `
+### Verifying that it works
 
-The Containers IP address is found under the property NetworkSettings.IPAddress, use it in the RUN command.
+```shell script
+curl http://localhost:8080/sentiment -H 'Content-Type: application/json' --data '{"sentence": "I hate you!"}'
+```
 
-#### Docker Machine on a VM 
-Get Docker Machine IP by executing:
+## Pushing to Docker Hub
 
-` $ docker-machine ip `
-
-Use this one in the command.
-
-
-## Pushing the container
-` $ docker push $DOCKER_USER_ID/sentiment-analysis-web-app `
-
-
+```shell script
+docker tag sa-logic $DOCKER_USER_ID/k8s-training.sa-webapp
+docker push $DOCKER_USER_ID/k8s-training.sa-webapp
+```

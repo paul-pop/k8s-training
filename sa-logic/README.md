@@ -12,18 +12,8 @@ docker run -d -p 5000:5000 sa-logic
 
 ### Verifying that it works
 
-Execute a POST on endpoint 
-
--> `localhost:5050/analyse/sentiment` or 
-
--> `<docker-machine ip>:5000/analyse/sentiment` Docker-machine ip has to be used if your OS doesn't provide native docker support. 
-
-Request body:
-
-```json
-{
-    "sentence": "I hate you!"
-}
+```shell script
+curl http://localhost:5000/analyse/sentiment -H 'Content-Type: application/json' --data '{"sentence": "I hate you!"}'
 ```
 
 ## Pushing to Docker Hub
