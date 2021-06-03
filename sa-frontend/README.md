@@ -1,14 +1,22 @@
-## Starting the Web App Locally
-` $ yarn start `
+## Building the Docker Container
 
-## Building the application
-` $ yarn build `
+```shell script
+docker build -t sa-frontend .
+```
 
-## Building the container
-` $ docker build -f Dockerfile -t $DOCKER_USER_ID/sentiment-analysis-frontend . `
+## Running the Docker Container
 
-## Running the container
-` $ docker run -d -p 80:80 $DOCKER_USER_ID/sentiment-analysis-frontend `
+```shell script
+docker run -d -p 80:80 sa-frontend
+```
 
-## Pushing the container
-` $ docker push $DOCKER_USER_ID/sentiment-analysis-frontend `
+### Verifying that it works
+
+http://localhost:80
+
+## Pushing to Docker Hub
+
+```shell script
+docker tag sa-logic $DOCKER_USER_ID/k8s-training.sa-frontend
+docker push $DOCKER_USER_ID/k8s-training.sa-frontend
+```
